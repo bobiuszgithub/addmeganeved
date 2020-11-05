@@ -2,7 +2,9 @@ package com.example.addmeganeved;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,8 +13,9 @@ import android.widget.EditText;
 public class MainActivity extends AppCompatActivity {
 
     private Button btnKuldes;
-    private EditText edittNEv;
-
+    private EditText edittNev;
+    SharedPreferences sharedPref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +25,12 @@ public class MainActivity extends AppCompatActivity {
         btnKuldes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String nev = edittNev.getText().toString();
+                editor.putString("neved", nev);
+                editor.commit();;
                 Intent masikActivityre = new Intent(MainActivity.this, MainActivity2.class);
                 startActivity(masikActivityre);
+                finish();
             }
         });
     }
@@ -31,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         btnKuldes = findViewById(R.id.btn_kuldes);
-        edittNEv = findViewById(R.id.edittext);
-
-
+        edittNev = findViewById(R.id.edittext);
+        sharedPref = getSharedPreferences("adatok", Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
     }
 
 }
